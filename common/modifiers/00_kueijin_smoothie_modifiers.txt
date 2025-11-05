@@ -1,0 +1,15 @@
+kueijin_smoothie_modifier_5 = {
+	icon = magic_mixed
+	diplomacy = -5
+	martial = -5
+	stewardship = -5
+	intrigue = -5
+	learning = -5
+	prowess = -5
+	health = -0.5
+	dread_baseline_add = -10
+}
+
+kueijin_smoothie_modifier_6 = {
+	icon = magic_positive
+}

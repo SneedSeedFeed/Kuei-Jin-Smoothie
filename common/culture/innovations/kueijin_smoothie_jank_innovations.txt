@@ -1,0 +1,9 @@
+# Placeholder icon, ideally would like to use a kuei jin or dharma icon but it's 3am rn
+crafting_minigame_node_alchemy_kueijin_smoothie = {
+	icon = "gfx/interface/icons/character_interactions/POD_art_interaction.dds"
+	potential = {
+		always = no
+	}
+	group = culture_group_regional
+	culture_era = culture_era_final_nights
+}

@@ -1,0 +1,4 @@
+﻿l_english:
+  node_alchemy_kueijin_smoothie_loca: "Dharma"
+  alchemy_kueijin_smoothie_5: "After consumption: Get [GetModifier('kueijin_smoothie_modifier_5').GetNameWithTooltip] [modifier|E]."
+  alchemy_kueijin_smoothie_6: "After consumption: Get [GetModifier('kueijin_smoothie_modifier_6').GetNameWithTooltip] [modifier|E]."
