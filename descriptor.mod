@@ -1,10 +1,10 @@
-version="0.0.2"
+version="0.0.3"
 tags={
 	"Gameplay"
 }
-name="Kuei-Jin Smoothie - Dharma Alchemy"
+name="[PoD Submod] Kuei-Jin Smoothie - Dharma Alchemy"
 dependencies={
 	"Princes of Darkness"
 }
-supported_version="1.18.0.*"
+supported_version="1.18.1.*"
 remote_file_id="3600215945"
