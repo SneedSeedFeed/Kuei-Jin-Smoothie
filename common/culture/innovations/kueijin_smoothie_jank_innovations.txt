@@ -1,4 +1,4 @@
-# Placeholder icon, ideally would like to use a kuei jin or dharma icon but it's 3am rn
+﻿# Placeholder icon, ideally would like to use a kuei jin or dharma icon but it's 3am rn
 crafting_minigame_node_alchemy_kueijin_smoothie = {
 	icon = "gfx/interface/icons/character_interactions/POD_art_interaction.dds"
 	potential = {

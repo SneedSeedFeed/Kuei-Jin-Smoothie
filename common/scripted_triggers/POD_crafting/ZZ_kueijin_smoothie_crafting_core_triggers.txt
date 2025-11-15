@@ -1,4 +1,4 @@
-POD_node_requirement = {
+﻿POD_node_requirement = {
 	switch = {
 		trigger = $FLAG$
 		flag:basic_node_durability_bonus = { $OWNER$ = { gold >= tiny_gold_max_value } }

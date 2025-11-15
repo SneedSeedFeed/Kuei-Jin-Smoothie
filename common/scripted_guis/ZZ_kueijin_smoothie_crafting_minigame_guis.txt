@@ -1,4 +1,4 @@
-###Add newly made nodes here to display them in GUI
+﻿###Add newly made nodes here to display them in GUI
 POD_crafting_minigame_node_list = {
 	effect = {
 		clear_variable_list = BaseForgeNodes

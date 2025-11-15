@@ -1,4 +1,4 @@
-kueijin_smoothie_modifier_5 = {
+﻿kueijin_smoothie_modifier_5 = {
 	icon = magic_mixed
 	diplomacy = -5
 	martial = -5
