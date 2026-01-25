@@ -1,0 +1,11 @@
+﻿building_requirement_dragon_nest = {
+	custom_tooltip = {
+		text = POD_requirements_dragon_nest
+		POD_middle_kingdom_splat_trigger = yes
+		OR = {
+			NOT = { has_trait = shih }
+			has_trait = dhampyr
+		}
+		building_requirement_wutian = no
+	}
+}
