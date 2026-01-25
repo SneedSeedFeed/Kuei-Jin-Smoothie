@@ -75,7 +75,7 @@
 		add = { value = 1 desc = DHARMA_PASSIVE_5_HERD }
 		add = { value = 1 desc = DHARMA_PASSIVE_5_GHOUL }
 	}
-    # Our loca, pushed to the bottom because ordering. Could hide it if we don't want to make it obvious you can tweak off that drank
+	# Our loca, pushed to the bottom because ordering. Could hide it if we don't want to make it obvious you can tweak off that drank
 	# If you're a shih dhampyr you get 4
 	if = {
 		limit = {
@@ -116,7 +116,6 @@
 POD_kueijin_dharma_xp_passive = {
 	value = { value = 0.1 desc = BASE }
 
-	# OUR EDIT: IF USER HAS DRUNK THE MAGIC JUICE WE GIVE THEM THE MAGIC POWAAAA
 	if = {
 		limit = {
 			has_trait = shih
@@ -145,6 +144,7 @@ POD_kueijin_dharma_xp_passive = {
 			desc = DHARMA_PASSIVE_KUEIJIN_SMOOTHIE
 		}
 	}
+
 	if = { limit = { POD_gains_boneflowers_dharma_xp = yes }
 		add = { value = bound_wraith_num desc = DHARMA_PASSIVE_BOUND_WRAITHS }
 	}
@@ -219,7 +219,7 @@ POD_kueijin_dharma_xp_passive = {
 		if = { limit = { num_of_relation_nemesis > 0 }
 			add = { value = 1 desc = DHARMA_PASSIVE_HAS_A_NEMESIS }
 		}
-		if = { limit = { has_trait = cultist } add = { value = 1 desc = DHARMA_PASSIVE_IS_A_AKUMA } }
+		if = { limit = { POD_is_akuma_trigger = yes } add = { value = 1 desc = DHARMA_PASSIVE_IS_A_AKUMA } }
 	}
 	if = { limit = { POD_gains_emma_o_dharma_xp = yes }
 		if = { limit = { total_ainu_domain_development >= 50 }
