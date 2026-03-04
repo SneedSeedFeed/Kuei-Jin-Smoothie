@@ -1266,6 +1266,7 @@ POD_crafting_brewing_effects = {
 			flag:alchemy_skill_learning = {
 				$TARGET$ = { add_learning_skill = 1 }
 			}
+			
 		}
 		end_story = yes
 	}
