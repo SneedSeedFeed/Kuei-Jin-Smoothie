@@ -1,4 +1,4 @@
-building_requirement_dragon_nest = {
+﻿building_requirement_dragon_nest = {
 	custom_tooltip = {
 		text = POD_requirements_dragon_nest
 		POD_middle_kingdom_splat_trigger = yes
