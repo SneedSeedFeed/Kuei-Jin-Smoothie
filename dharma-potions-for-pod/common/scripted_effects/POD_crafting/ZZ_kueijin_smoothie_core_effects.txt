@@ -1,4 +1,4 @@
-﻿
+
 
 
 ##Add new nodes here
@@ -7,11 +7,12 @@ POD_crafting_minigame_execute_node = {
 		save_scope_as = owner 
 		if = { limit = { has_trait = wraith } POD_pulse_chance_passion = { TYPE = creativity } }
     } # For Reforging Purpose
+	$CRAFTER$ ?= { save_scope_as = pod_node_crafter }
 	# $ARTIFACT$ ?= {
 	# 	set_artifact_rarity_famed = yes
 	# }
 	switch = {
-        trigger = $FLAG$
+	trigger = $FLAG$
 
 ########################
 #### Starting Nodes ####
@@ -35,7 +36,7 @@ POD_crafting_minigame_execute_node = {
 			$ARTIFACT$ ?= {
 				save_temporary_scope_value_as = { name = mokole_apprentice_boost value = yes }
 				if = {
-					limit = { $CRAFTER$ = { faith = { has_doctrine_parameter = katana_crafting } } }
+					limit = { scope:pod_node_crafter ?= { faith = { has_doctrine_parameter = katana_crafting } } }
 					reforge_artifact = { type = katana visuals = sword_POD_katana generate_history = no }
 				}
 				else = { reforge_artifact = { type = sword visuals = sword generate_history = no } }
@@ -100,6 +101,7 @@ POD_crafting_minigame_execute_node = {
 				reforge_artifact = { type = sword visuals = sassanian_sword generate_history = no } 
 				set_max_durability = { value = crafting_forging_starting_durability }
 				set_variable = edge_of_the_sun
+				set_variable = { name = artifact_weapon_damage_class value = flag:gold }
 				set_variable = possessed_artifact
 				set_variable = fetish_artifact
 				set_variable =  uses_artifact_power
@@ -142,6 +144,12 @@ POD_crafting_minigame_execute_node = {
 			$CRAFTER$ = { save_scope_as = crafter }
 			$ARTIFACT$ ?= { 
 				POD_while_accepting_decimals = { VALUE = POD_basic_node_general_improvment_value EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+			}
+			scope:crafter = {
+				if = {
+					limit = { has_perk = conforma_perk }
+					POD_discipline_cost_effect = { COUNT = 1 }
+				}
 			}
 			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value } 
 		}
@@ -219,10 +227,6 @@ POD_crafting_minigame_execute_node = {
 
 
 ####Everything Else
-		flag:node_frost_facsimile = { 
-			$ARTIFACT$ ?= { POD_increase_durability_effect = { VALUE = 15 } POD_crafting_give_modifier_based_on_type = yes } 
-			$CRAFTER$ = { POD_glamour_cost_effect = { COUNT = 2 } } 
-		}
 		flag:node_horrid_blade = { 
 			$ARTIFACT$ ?= { add_artifact_modifier = artifact_prowess_2_modifier } 
 			$CRAFTER$ = { POD_discipline_cost_effect = { COUNT = 2 } } 
@@ -387,7 +391,7 @@ POD_crafting_minigame_execute_node = {
 					while = { count = 2 POD_crafting_give_modifier_based_on_type = yes }
 				}
 			}
-                        else = {
+			else = {
 				$ARTIFACT$ ?= { 
 					POD_crafting_give_modifier_based_on_type = yes
 				} 
@@ -395,11 +399,59 @@ POD_crafting_minigame_execute_node = {
 			if = { limit = { $CRAFTER$ ?= { has_perk = lore_mold_earth_perk } } 
 				$CRAFTER$ = { POD_resolve_cost_effect = { COUNT = 2 } } 
 			}
-                        else = {
+			else = {
 				$CRAFTER$ = { POD_resolve_cost_effect = { COUNT = 3 } } 
 			}
 		}
 
+		flag:node_dance_of_the_five_kings = {
+			if = { limit = { $CRAFTER$ ?= { has_perk = realm_prop_5_perk } }
+				$ARTIFACT$ ?= {
+					POD_while_accepting_decimals = { VALUE = 3 EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+				}
+			}
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = realm_prop_4_perk } }
+				$ARTIFACT$ ?= {
+					POD_while_accepting_decimals = { VALUE = 2.5 EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+				}
+			}
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = realm_prop_3_perk } }
+				$ARTIFACT$ ?= {
+					POD_while_accepting_decimals = { VALUE = 2 EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+				}
+			}
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = realm_prop_2_perk } }
+				$ARTIFACT$ ?= {
+					POD_while_accepting_decimals = { VALUE = 1.5 EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+				}
+			}
+			else = {
+				$ARTIFACT$ ?= {
+					POD_crafting_give_modifier_based_on_type = yes
+				}
+			}
+			$CRAFTER$ = { POD_glamour_cost_effect = { COUNT = 3 } }
+		}
+
+		flag:node_burning_chew = {
+			$ARTIFACT$ ?= { add_artifact_modifier = artifact_prowess_2_modifier }
+			$CRAFTER$ = { POD_glamour_cost_effect = { COUNT = 1 } }
+		}
+
+		flag:node_confounding_coils = {
+			$ARTIFACT$ ?= {
+				add_artifact_modifier = artifact_soak_2_modifier
+				POD_set_or_change_variable = { VAR = artifact_soak_var VAL = 2 }
+			}
+			$CRAFTER$ = { POD_glamour_cost_effect = { COUNT = 2 } }
+		}
+
+		flag:node_runic_imprint = {
+			$ARTIFACT$ ?= {
+				POD_while_accepting_decimals = { VALUE = 2 EFFECT = "POD_crafting_give_modifier_based_on_type = yes" }
+			}
+			$CRAFTER$ = { POD_glamour_cost_effect = { COUNT = 2 } }
+		}
 		flag:node_shards_of_granite = {
 			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value }
 			$CRAFTER$ ?= { POD_gift_cost_effect = { COUNT = 1 } }
@@ -547,6 +599,15 @@ POD_crafting_minigame_execute_node = {
 			}
 		}
 
+		flag:node_reshape_object = {
+			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value }
+			$CRAFTER$ = { POD_gift_cost_effect = { COUNT = 1 } }
+			$ARTIFACT$ = {
+				POD_crafting_give_modifier_based_on_type = yes
+				add_artifact_modifier = artifact_minor_monthly_prestige_mult_2_modifier
+			}
+		}
+
 
 #################
 #### Brewing ####
@@ -675,6 +736,7 @@ POD_crafting_minigame_execute_node = {
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_5_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_5 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_4 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_3_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_3 } } }
+			else_if = { limit = { $CRAFTER$ ?= { dynasty ?= { has_dynasty_perk = daireann_legacy_5 } } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_2_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_1_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antidepresants_1 } } }
 			$ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = low_chance_depression_cure } }
@@ -684,6 +746,7 @@ POD_crafting_minigame_execute_node = {
 			if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_6_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_6 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_5_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_5 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_4 } } }
+			else_if = { limit = { $CRAFTER$ ?= { dynasty ?= { has_dynasty_perk = daireann_legacy_5 } } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_3 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_3_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_3 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_2_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_1_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_aphrodisiac_1 } } }
@@ -693,6 +756,7 @@ POD_crafting_minigame_execute_node = {
 			if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_6_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_6 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_5_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_5 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_4 } } }
+			else_if = { limit = { $CRAFTER$ ?= { dynasty ?= { has_dynasty_perk = daireann_legacy_5 } } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_3 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_3_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_3 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_2_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_1_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_poison_1 } } }
@@ -703,6 +767,7 @@ POD_crafting_minigame_execute_node = {
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_5_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_5 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_4 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_3_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_3 } } }
+			else_if = { limit = { $CRAFTER$ ?= { dynasty ?= { has_dynasty_perk = daireann_legacy_5 } } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_2_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_1_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_antibiotics_1 } } }
 			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value } 
@@ -713,6 +778,7 @@ POD_crafting_minigame_execute_node = {
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_stimulant_3 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_3_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_stimulant_2 } } }
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_2_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_stimulant_1 } } }
+			else_if = { limit = { $CRAFTER$ ?= { dynasty ?= { has_dynasty_perk = daireann_legacy_5 } } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_stimulant_1 } } }
 			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value } 
 		}
 		flag:node_alchemy_health_booster = { 
@@ -721,6 +787,35 @@ POD_crafting_minigame_execute_node = {
 			else_if = { limit = { $CRAFTER$ ?= { has_perk = numina_alchemy_4_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = alchemy_health_booster_1 } } }
 			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value } 
 		}
+
+		flag:node_verdage_aphrodisiac = {
+			if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_perfect_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_6 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_5 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_semi_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_4 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_unstable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_3 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_uncontrolled_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_2 } } }
+			else = { $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_aphrodisiac_1 } } }
+			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value }
+		}
+		flag:node_verdage_poison = {
+			if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_perfect_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_6 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_5 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_semi_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_4 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_unstable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_3 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_uncontrolled_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_2 } } }
+			else = { $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_poison_1 } } }
+			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value }
+		}
+		flag:node_verdage_stimulant = {
+			if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_perfect_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_6 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_5 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_semi_stable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_4 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_unstable_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_3 } } }
+			else_if = { limit = { $CRAFTER$ ?= { has_perk = slivers_verdage_uncontrolled_perk } } $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_2 } } }
+			else = { $ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = verdage_stimulant_1 } } }
+			scope:owner = { remove_short_term_gold = POD_crafting_node_minor_gold_value }
+		}
+
 		flag:node_pearlshell_of_healing = {
 			$ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = pearlshell_of_healing } } 
 			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value } 
@@ -741,6 +836,8 @@ POD_crafting_minigame_execute_node = {
 			$ARTIFACT$ ?= { POD_crafting_brewing_add_effect = { TYPE = swimmers_medicine } } 
 			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value } 
 		}
+
+
 		
 ###################
 #### Enhancing ####
@@ -809,12 +906,6 @@ POD_crafting_minigame_execute_node = {
 			}
 			$ARTIFACT$ ?= { add_artifact_modifier = sword_of_the_righteous_modifier }
 		}
-		flag:node_rune = {
-			$CRAFTER$ ?= {
-				POD_glamour_cost_effect = { COUNT = 2 }
-			}
-			$ARTIFACT$ ?= { POD_crafting_give_modifier_based_on_type = yes }
-		}
 		flag:node_bless = {
 			$CRAFTER$ = { add_piety = -250 } 
 			$ARTIFACT$ ?= { add_artifact_modifier = bless_modifier POD_crafting_give_modifier_based_on_type = yes }
@@ -838,15 +929,6 @@ POD_crafting_minigame_execute_node = {
 			}
 			$ARTIFACT$ ?= { POD_crafting_give_modifier_based_on_type = yes }
 		}
-		flag:node_conforma = {
-			$CRAFTER$ ?= {
-				if = { limit = { has_perk = scinde_perk } POD_discipline_cost_effect = { COUNT = 2 } }
-				else = { POD_discipline_cost_effect = { COUNT = 3 } }
-				
-			}
-			$ARTIFACT$ ?= { POD_crafting_give_modifier_based_on_type = yes }
-		}
-
 		flag:node_bloodstones = {
 			scope:owner = { remove_short_term_gold = POD_crafting_node_tiny_gold_value }
 			$ARTIFACT$ ?= { add_artifact_modifier = bloodstones_modifier }
@@ -856,19 +938,19 @@ POD_crafting_minigame_execute_node = {
 			PREV = {  }
 			$ARTIFACT$ ?= {
 				lose_artifact_pieces_matching_rarity_effect = { VALUE = 1 }
-				POD_crafting_artifact_power_add_effect = { CRAFTER = $CRAFTER$ }
+				POD_crafting_artifact_power_add_effect = { CRAFTER = scope:pod_node_crafter }
 			}
 		}
 		flag:node_dream_the_form = {
 			$ARTIFACT$ ?= {
 				lose_artifact_pieces_matching_rarity_effect = { VALUE = 2 }
-				POD_crafting_artifact_power_add_effect = { CRAFTER = $CRAFTER$ }
+				POD_crafting_artifact_power_add_effect = { CRAFTER = scope:pod_node_crafter }
 			}
 		}
 		flag:node_shape_the_form = {
 			$ARTIFACT$ ?= {
 				lose_artifact_pieces_matching_rarity_effect = { VALUE = 3 }
-				POD_crafting_artifact_power_add_effect = { CRAFTER = $CRAFTER$ }
+				POD_crafting_artifact_power_add_effect = { CRAFTER = scope:pod_node_crafter }
 			}
 		}
 
@@ -902,7 +984,7 @@ POD_crafting_minigame_execute_node = {
 			prev.var:crafting_minigame.var:type ?= flag:forge
 			$ARTIFACT$ = { has_variable = uses_artifact_power }
 		}
-		$ARTIFACT$ = { POD_crafting_artifact_power_add_effect = { CRAFTER = $CRAFTER$ } }
+		$ARTIFACT$ = { POD_crafting_artifact_power_add_effect = { CRAFTER = scope:pod_node_crafter } }
 	}
 	
 }
@@ -972,17 +1054,22 @@ POD_crafting_generate_brew_nodes = {
 			set_variable = { name = node_type value = flag:node_alchemy_skill_learning } 
 		}
 
+		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_verdage_aphrodisiac } } scope:crafter = { has_trait = verdage } } set_variable = { name = node_type value = flag:node_verdage_aphrodisiac } }
+		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_verdage_poison } } scope:crafter = { has_trait = verdage } } set_variable = { name = node_type value = flag:node_verdage_poison } }
+		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_verdage_stimulant } } scope:crafter = { has_trait = verdage } } set_variable = { name = node_type value = flag:node_verdage_stimulant } }
+
 		#Mokole
 		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_pearlshell_of_healing } } scope:crafter = { has_perk = curing_the_body_perk } } set_variable = { name = node_type value = flag:node_pearlshell_of_healing } }
 		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_box_of_rice } } scope:crafter = { has_perk = curing_the_body_perk } } set_variable = { name = node_type value = flag:node_box_of_rice } }
 		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_matre_medicine } } scope:crafter = { has_perk = brews_of_the_mokole_perk } } set_variable = { name = node_type value = flag:node_matre_medicine } }
 		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_snake_herbs } } scope:crafter = { has_perk = brews_of_the_mokole_perk } } set_variable = { name = node_type value = flag:node_snake_herbs } }
 		1 = { trigger = { PREV = { POD_enabled_node = { NODE = node_swimmers_medicine } } scope:crafter = { has_perk = brews_of_the_mokole_perk } } set_variable = { name = node_type value = flag:node_swimmers_medicine } }
+
 	}
 }
 ##Add new nodes here
 POD_crafting_brewing_effects = {
-        custom_description_no_bullet = { text = POD_crafting_brewing_effects }
+	custom_description_no_bullet = { text = POD_crafting_brewing_effects }
 	save_scope_value_as = { name = stress_amount value = 30 }
 	save_scope_value_as = { name = effect_time value = 5 }
         if = { limit = { var:crafter ?= { has_perk = renewal_of_the_horus_perk } } save_scope_value_as = { name = effect_time value = { value = scope:effect_time add = 2 } } }
@@ -1019,7 +1106,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = divine_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = divine_elixir_learning_modifier years = POD_effect_time } } 
 					} 
-                }
+				}
 			}
 			flag:kingly_elixir = {
 				$TARGET$ = {
@@ -1030,7 +1117,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = kingly_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = kingly_elixir_learning_modifier years = POD_effect_time } } 
 					} 
-                }
+				}
 			}
 			flag:princely_elixir = {
 				$TARGET$ = {
@@ -1041,7 +1128,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = princely_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = princely_elixir_learning_modifier years = POD_effect_time } } 
 					} 
-                }
+				}
 			}
 			flag:potent_elixir = {
 				$TARGET$ = {
@@ -1052,7 +1139,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = potent_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = potent_elixir_learning_modifier years = POD_effect_time } } 
 					} 
-                }
+				}
 			}
 			flag:complex_elixir = {
 				$TARGET$ = {
@@ -1063,7 +1150,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = complex_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = complex_elixir_learning_modifier years = POD_effect_time } } 
 					}
-                }
+				}
 			}
 			flag:simple_elixir = {
 				$TARGET$ = {
@@ -1074,7 +1161,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = simple_elixir_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = simple_elixir_learning_modifier years = POD_effect_time } } 
 					}
-                }
+				}
 			}
 
 			flag:potent_philtre = { $TARGET$ = { add_character_modifier = { modifier = potent_philtre_modifier years = POD_effect_time } } }
@@ -1093,7 +1180,7 @@ POD_crafting_brewing_effects = {
 			flag:potion_of_resilience = { $TARGET$ = { add_character_modifier = { modifier = potion_of_resilience_modifier years = POD_effect_time } } }
 			flag:draught_of_perfect_memory = { $TARGET$ = { add_character_modifier = { modifier = draught_of_perfect_memory_modifier years = POD_effect_time } } }
 			
-            flag:divine_tonic = { $TARGET$ = { add_character_modifier = { modifier = divine_tonic_modifier years = POD_effect_time } } }
+			flag:divine_tonic = { $TARGET$ = { add_character_modifier = { modifier = divine_tonic_modifier years = POD_effect_time } } }
 			flag:kingly_tonic = { $TARGET$ = { add_character_modifier = { modifier = kingly_tonic_modifier years = POD_effect_time } } }
 			flag:princely_tonic = { $TARGET$ = { add_character_modifier = { modifier = princely_tonic_modifier years = POD_effect_time } } }
 			flag:potent_tonic = { $TARGET$ = { add_character_modifier = { modifier = potent_tonic_modifier years = POD_effect_time } } }
@@ -1151,9 +1238,9 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } } 
 						} 
 					}
-                } 
+				 }
 			}
-            flag:alchemy_stimulant_4 = {
+			flag:alchemy_stimulant_4 = {
 				$TARGET$ = {
 					while = {
 						count = 4
@@ -1165,20 +1252,22 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } } 
 						} 
 					}
-                }
-			}
-			flag:alchemy_stimulant_3 = { $TARGET$ = { 
-				while = {
-					count = 3
-					random_list = {
-						1 = { add_character_modifier = { modifier = alchemy_stimulant_diplomacy_modifier years = POD_effect_time } }
-						1 = { add_character_modifier = { modifier = alchemy_stimulant_martial_modifier years = POD_effect_time } } 
-						1 = { add_character_modifier = { modifier = alchemy_stimulant_stewardship_modifier years = POD_effect_time } } 
-						1 = { add_character_modifier = { modifier = alchemy_stimulant_intrigue_modifier years = POD_effect_time } } 
-						1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } } 
-					} 
 				}
-                        } }
+			}
+			flag:alchemy_stimulant_3 = {
+				$TARGET$ = {
+					while = {
+						count = 3
+						random_list = {
+							1 = { add_character_modifier = { modifier = alchemy_stimulant_diplomacy_modifier years = POD_effect_time } }
+							1 = { add_character_modifier = { modifier = alchemy_stimulant_martial_modifier years = POD_effect_time } }
+							1 = { add_character_modifier = { modifier = alchemy_stimulant_stewardship_modifier years = POD_effect_time } }
+							1 = { add_character_modifier = { modifier = alchemy_stimulant_intrigue_modifier years = POD_effect_time } }
+							1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } }
+						}
+					}
+				}
+			}
 			flag:alchemy_stimulant_2 = { 
 				$TARGET$ = {
 					while = {
@@ -1191,7 +1280,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } } 
 						} 
 					}
-                }
+				}
 			}
 			flag:alchemy_stimulant_1 = { 
 				$TARGET$ = {
@@ -1202,7 +1291,7 @@ POD_crafting_brewing_effects = {
 							1 = { add_character_modifier = { modifier = alchemy_stimulant_intrigue_modifier years = POD_effect_time } } 
 							1 = { add_character_modifier = { modifier = alchemy_stimulant_learning_modifier years = POD_effect_time } } 
 					} 
-                }
+				}
 			}
 			
 			flag:alchemy_health_booster_3 = { $TARGET$ = { add_character_modifier = { modifier = alchemy_health_booster_3_modifier years = POD_effect_time } } }
@@ -1239,6 +1328,7 @@ POD_crafting_brewing_effects = {
 			}
 			flag:snake_herbs = { $TARGET$ = { add_character_modifier = { modifier = snake_herbs_modifier years = POD_effect_time } } }
 			flag:swimmers_medicine = { $TARGET$ = { add_character_modifier = { modifier = swimmers_medicine_modifier years = POD_effect_time } } }
+
 			
 
 			flag:alchemy_kueijin_smoothie_5 = { $TARGET$ = { add_character_modifier = { modifier = kueijin_smoothie_modifier_5 years = POD_effect_time } } }
@@ -1275,7 +1365,27 @@ POD_crafting_brewing_effects = {
 			flag:alchemy_skill_learning = {
 				$TARGET$ = { add_learning_skill = 1 }
 			}
-			
+
+			flag:verdage_aphrodisiac_6 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_6_modifier years = POD_effect_time } } }
+			flag:verdage_aphrodisiac_5 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_5_modifier years = POD_effect_time } } }
+			flag:verdage_aphrodisiac_4 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_4_modifier years = POD_effect_time } } }
+			flag:verdage_aphrodisiac_3 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_3_modifier years = POD_effect_time } } }
+			flag:verdage_aphrodisiac_2 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_2_modifier years = POD_effect_time } } }
+			flag:verdage_aphrodisiac_1 = { $TARGET$ = { add_character_modifier = { modifier = verdage_aphrodisiac_1_modifier years = POD_effect_time } } }
+
+			flag:verdage_poison_6 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_6_modifier years = POD_effect_time } } }
+			flag:verdage_poison_5 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_5_modifier years = POD_effect_time } } }
+			flag:verdage_poison_4 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_4_modifier years = POD_effect_time } } }
+			flag:verdage_poison_3 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_3_modifier years = POD_effect_time } } }
+			flag:verdage_poison_2 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_2_modifier years = POD_effect_time } } }
+			flag:verdage_poison_1 = { $TARGET$ = { add_character_modifier = { modifier = verdage_poison_1_modifier years = POD_effect_time } } }
+
+			flag:verdage_stimulant_6 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 6 } } }
+			flag:verdage_stimulant_5 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 5 } } }
+			flag:verdage_stimulant_4 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 4 } } }
+			flag:verdage_stimulant_3 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 3 } } }
+			flag:verdage_stimulant_2 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 2 } } }
+			flag:verdage_stimulant_1 = { $TARGET$ = { POD_verdage_stimulant_modifier_effect = { LEVEL = 1 } } }
 		}
 		end_story = yes
 	}

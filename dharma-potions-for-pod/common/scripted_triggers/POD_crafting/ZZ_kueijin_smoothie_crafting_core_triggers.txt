@@ -1,4 +1,4 @@
-﻿##Add new nodes here
+##Add new nodes here
 POD_node_requirement = {
 	switch = {
 		trigger = $FLAG$
@@ -51,7 +51,6 @@ POD_node_requirement = {
 				}
 			}
 		}
-		flag:node_frost_facsimile = { $CRAFTER$ = { POD_has_enough_glamour_for_fae_art = { AMOUNT = 2 } } }
 		flag:node_horrid_blade = {
 			custom_tooltip = { text = "POD_only_weapons" $ARTIFACT$ = { artifact_slot_type = primary_armament } }
 			$CRAFTER$ = { POD_has_enough_blood_for_discipline = { AMOUNT = 2 } }
@@ -103,6 +102,31 @@ POD_node_requirement = {
 			}
 		}
 
+		flag:node_dance_of_the_five_kings = {
+			$CRAFTER$ = {
+				POD_has_enough_glamour_for_fae_art = { AMOUNT = 3 }
+			}
+		}
+
+		flag:node_burning_chew = {
+			custom_tooltip = { text = "POD_only_weapons" $ARTIFACT$ = { artifact_slot_type = primary_armament } }
+			$CRAFTER$ = {
+				POD_has_enough_glamour_for_fae_art = { AMOUNT = 1 }
+			}
+		}
+
+		flag:node_confounding_coils = {
+			custom_tooltip = { text = "POD_only_armors" $ARTIFACT$ = { artifact_slot_type = armor } }
+			$CRAFTER$ = {
+				POD_has_enough_glamour_for_fae_art = { AMOUNT = 2 }
+			}
+		}
+
+		flag:node_runic_imprint = {
+			$CRAFTER$ = {
+				POD_has_enough_glamour_for_fae_art = { AMOUNT = 2 }
+			}
+		}
 		flag:node_shards_of_granite = {
 			$OWNER$ = { gold >= POD_crafting_node_tiny_gold_value }
 			$CRAFTER$ = { POD_has_enough_gnosis_for_gift = { COUNT = 1 } }
@@ -186,17 +210,24 @@ POD_node_requirement = {
 		}
 
 
+
+
+
 		flag:node_body_arsenal = {
 			$OWNER$ = { gold >= POD_crafting_node_tiny_gold_value }
 			$CRAFTER$ = { POD_has_enough_blood_for_discipline = { AMOUNT = 1 } }
 		}
 
 
+		flag:node_reshape_object = {
+			$OWNER$ = { gold >= POD_crafting_node_tiny_gold_value }
+			$CRAFTER$ = { POD_has_enough_gnosis_for_gift = { COUNT = 1 } }
+		}
+
 		#ENHANCING
 		flag:node_the_forgers_hammer = { $CRAFTER$ = { POD_has_enough_blood_for_discipline = { AMOUNT = 2 } } }
 		flag:node_aid_from_spirits = { $CRAFTER$ = { POD_has_enough_blood_for_discipline = { AMOUNT = 1 } } }
 		flag:node_sword_of_the_righteous = { $CRAFTER$ = { POD_has_enough_blood_for_discipline = { AMOUNT = 3 } } }
-		flag:node_rune = { $CRAFTER$ = { NOT = { has_character_modifier = glamour0_modifier } } }
 		flag:node_bless = { $CRAFTER$ = { piety >= 250 } }
 		flag:node_sorcerers_blade = { $CRAFTER$ = { POD_has_enough_gnosis_for_gift = { COUNT = 1 } } }
 		flag:node_impress = {
@@ -211,12 +242,6 @@ POD_node_requirement = {
 		}
 		flag:node_strengthen = { $CRAFTER$ = { POD_has_enough_pathos_for_arcanos = { AMOUNT = 2 } } }
 		flag:node_empower_jade = { $CRAFTER$ = { POD_has_enough_pathos_for_arcanos = { AMOUNT = 1 } } }
-		flag:node_conforma = {
-			$CRAFTER$ = {
-				trigger_if = { limit = { has_perk = scinde_perk } POD_has_enough_blood_for_discipline = { AMOUNT = 2 } }
-				trigger_else = { POD_has_enough_blood_for_discipline = { AMOUNT = 3 } }
-			}
-		}
 
 		flag:node_enchantment_attribute = {
 			$CRAFTER$ = { stress_level <= 3 }
@@ -339,6 +364,9 @@ POD_node_requirement = {
 		flag:node_alchemy_skill_learning = {
 			POD_macro_for_alchemy_skill = { OWNER = $OWNER$ SKILL = learning }
 		}
+		flag:node_verdage_aphrodisiac = { $OWNER$ = { gold >= minor_gold_max_value } }
+		flag:node_verdage_poison = { $OWNER$ = { gold >= minor_gold_max_value } }
+		flag:node_verdage_stimulant = { $OWNER$ = { gold >= minor_gold_max_value } }
 		fallback = {  }
 	}
 }
